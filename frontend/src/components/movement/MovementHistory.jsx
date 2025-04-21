@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,12 +12,12 @@ import { cn } from "@/lib/utils";
 const MovementHistory = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
-    transactionType: "",
-    sourceDepartment: "",
-    destinationDepartment: "",
+    transactionType: "all",
+    sourceDepartment: "all",
+    destinationDepartment: "all",
     startDate: null,
     endDate: null,
-    status: ""
+    status: "all"
   });
 
   // Mock movement history data
@@ -89,20 +88,20 @@ const MovementHistory = () => {
       match = searchFields.some(field => field.includes(query));
     }
     
-    // Apply filters
-    if (match && filters.transactionType && movement.transactionType !== filters.transactionType) {
+    // Apply filters - only filter if not "all"
+    if (match && filters.transactionType !== "all" && movement.transactionType !== filters.transactionType) {
       match = false;
     }
     
-    if (match && filters.sourceDepartment && movement.sourceDepartment !== filters.sourceDepartment) {
+    if (match && filters.sourceDepartment !== "all" && movement.sourceDepartment !== filters.sourceDepartment) {
       match = false;
     }
     
-    if (match && filters.destinationDepartment && movement.destinationDepartment !== filters.destinationDepartment) {
+    if (match && filters.destinationDepartment !== "all" && movement.destinationDepartment !== filters.destinationDepartment) {
       match = false;
     }
     
-    if (match && filters.status && movement.status !== filters.status) {
+    if (match && filters.status !== "all" && movement.status !== filters.status) {
       match = false;
     }
     
@@ -123,12 +122,12 @@ const MovementHistory = () => {
 
   const resetFilters = () => {
     setFilters({
-      transactionType: "",
-      sourceDepartment: "",
-      destinationDepartment: "",
+      transactionType: "all",
+      sourceDepartment: "all",
+      destinationDepartment: "all",
       startDate: null,
       endDate: null,
-      status: ""
+      status: "all"
     });
     setSearchQuery("");
   };
@@ -174,7 +173,7 @@ const MovementHistory = () => {
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
+                <SelectItem value="all">All</SelectItem>
                 <SelectItem value="Borrow">Borrow</SelectItem>
                 <SelectItem value="Return">Return</SelectItem>
               </SelectContent>
@@ -191,7 +190,7 @@ const MovementHistory = () => {
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
+                <SelectItem value="all">All</SelectItem>
                 {departments.map(dept => (
                   <SelectItem key={`source-${dept}`} value={dept}>{dept}</SelectItem>
                 ))}
@@ -209,7 +208,7 @@ const MovementHistory = () => {
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
+                <SelectItem value="all">All</SelectItem>
                 {departments.map(dept => (
                   <SelectItem key={`dest-${dept}`} value={dept}>{dept}</SelectItem>
                 ))}
@@ -281,7 +280,7 @@ const MovementHistory = () => {
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
+                <SelectItem value="all">All</SelectItem>
                 <SelectItem value="Completed">Completed</SelectItem>
                 <SelectItem value="In Transit">In Transit</SelectItem>
                 <SelectItem value="Pending">Pending</SelectItem>

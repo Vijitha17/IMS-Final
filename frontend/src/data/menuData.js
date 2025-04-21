@@ -138,6 +138,11 @@ export const menuByRole = {
       icon: Box
     },
     {
+      title: "Stock Movement",
+      path: "/movement/request-status",
+      icon: ArrowDown,
+    },
+    {
       title: "Vendor Management",
       path: "/vendor/service",
       icon: Truck
@@ -187,34 +192,8 @@ export const menuByRole = {
     },
     {
       title: "Stock Movement",
-      path: "/stock/movement/request-inventory",
+      path: "/movement/request-status",
       icon: ArrowDown,
-      submenu: [
-        {
-          title: "Request Inventory",
-          path: "/stock/movement/request-inventory"
-        },
-        {
-          title: "Request Status",
-          path: "/stock/movement/request-status"
-        },
-        {
-          title: "Incoming Requests",
-          path: "/stock/movement/incoming-requests"
-        },
-        {
-          title: "Handover Management",
-          path: "/stock/movement/handover"
-        },
-        {
-          title: "Returns Management",
-          path: "/stock/movement/returns"
-        },
-        {
-          title: "Movement History",
-          path: "/stock/movement/history"
-        }
-      ]
     },
     {
       title: "User Management",
@@ -251,34 +230,8 @@ export const menuByRole = {
     },
     {
       title: "Stock Movement",
-      path: "/stock/movement/request-inventory",
+      path: "/movement/request-status",
       icon: ArrowDown,
-      submenu: [
-        {
-          title: "Request Inventory",
-          path: "/stock/movement/request-inventory"
-        },
-        {
-          title: "Request Status",
-          path: "/stock/movement/request-status"
-        },
-        {
-          title: "Incoming Requests",
-          path: "/stock/movement/incoming-requests"
-        },
-        {
-          title: "Handover Management",
-          path: "/stock/movement/handover"
-        },
-        {
-          title: "Returns Management",
-          path: "/stock/movement/returns"
-        },
-        {
-          title: "Movement History",
-          path: "/stock/movement/history"
-        }
-      ]
     },
     {
       title: "User Management",
@@ -315,34 +268,8 @@ export const menuByRole = {
     },
     {
       title: "Stock Movement",
-      path: "/stock/movement/request-inventory",
+      path: "/movement/request-status",
       icon: ArrowDown,
-      submenu: [
-        {
-          title: "Request Inventory",
-          path: "/stock/movement/request-inventory"
-        },
-        {
-          title: "Request Status",
-          path: "/stock/movement/request-status"
-        },
-        {
-          title: "Incoming Requests",
-          path: "/stock/movement/incoming-requests"
-        },
-        {
-          title: "Handover Management",
-          path: "/stock/movement/handover"
-        },
-        {
-          title: "Returns Management",
-          path: "/stock/movement/returns"
-        },
-        {
-          title: "Movement History",
-          path: "/stock/movement/history"
-        }
-      ]
     },
     {
       title: "User Management",

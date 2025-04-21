@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -14,10 +13,10 @@ import { cn } from "@/lib/utils";
 const RequestStatus = () => {
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
-    status: "",
+    status: "all",
     startDate: null,
     endDate: null,
-    targetDepartment: ""
+    targetDepartment: "all"
   });
 
   // Mock request data
@@ -67,11 +66,11 @@ const RequestStatus = () => {
   const filteredRequests = mockRequests.filter(request => {
     let match = true;
     
-    if (filters.status && request.status !== filters.status) {
+    if (filters.status && filters.status !== "all" && request.status !== filters.status) {
       match = false;
     }
     
-    if (filters.targetDepartment && request.targetDepartment !== filters.targetDepartment) {
+    if (filters.targetDepartment && filters.targetDepartment !== "all" && request.targetDepartment !== filters.targetDepartment) {
       match = false;
     }
     
@@ -92,10 +91,10 @@ const RequestStatus = () => {
 
   const resetFilters = () => {
     setFilters({
-      status: "",
+      status: "all",
       startDate: null,
       endDate: null,
-      targetDepartment: ""
+      targetDepartment: "all"
     });
   };
 
@@ -134,7 +133,7 @@ const RequestStatus = () => {
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
+                <SelectItem value="all">All</SelectItem>
                 <SelectItem value="Pending">Pending</SelectItem>
                 <SelectItem value="Approved">Approved</SelectItem>
                 <SelectItem value="Rejected">Rejected</SelectItem>
@@ -207,7 +206,7 @@ const RequestStatus = () => {
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
+                <SelectItem value="all">All</SelectItem>
                 {departments.map(dept => (
                   <SelectItem key={dept} value={dept}>{dept}</SelectItem>
                 ))}

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -11,10 +10,10 @@ import { cn } from "@/lib/utils";
 
 const IncomingRequests = () => {
   const [filters, setFilters] = useState({
-    status: "",
+    status: "all",
     startDate: null,
     endDate: null,
-    requestingDepartment: ""
+    requestingDepartment: "all"
   });
 
   // Mock request data
@@ -68,11 +67,11 @@ const IncomingRequests = () => {
   const filteredRequests = mockRequests.filter(request => {
     let match = true;
     
-    if (filters.status && request.status !== filters.status) {
+    if (filters.status && filters.status !== "all" && request.status !== filters.status) {
       match = false;
     }
     
-    if (filters.requestingDepartment && request.requestingDepartment !== filters.requestingDepartment) {
+    if (filters.requestingDepartment && filters.requestingDepartment !== "all" && request.requestingDepartment !== filters.requestingDepartment) {
       match = false;
     }
     
@@ -93,10 +92,10 @@ const IncomingRequests = () => {
 
   const resetFilters = () => {
     setFilters({
-      status: "",
+      status: "all",
       startDate: null,
       endDate: null,
-      requestingDepartment: ""
+      requestingDepartment: "all"
     });
   };
 
@@ -138,7 +137,7 @@ const IncomingRequests = () => {
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
+                <SelectItem value="all">All</SelectItem>
                 <SelectItem value="Pending">Pending</SelectItem>
                 <SelectItem value="Approved">Approved</SelectItem>
                 <SelectItem value="Rejected">Rejected</SelectItem>
@@ -210,7 +209,7 @@ const IncomingRequests = () => {
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
+                <SelectItem value="all">All</SelectItem>
                 {departments.map(dept => (
                   <SelectItem key={dept} value={dept}>{dept}</SelectItem>
                 ))}

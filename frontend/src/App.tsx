@@ -11,6 +11,7 @@ import Reports from "./pages/Reports";
 import UserManagement from "./pages/UserManagement";
 import Requirements from "./pages/Requirements";
 import StockManagement from "./pages/StockManagement";
+import StockMovement from "./pages/StockMovement";
 import VendorManagement from "./pages/VendorManagement";
 import PurchaseManagement from "./pages/PurchaseManagement";
 import ExpenditureManagement from "./pages/ExpenditureManagement";
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/users/*" element={<UserManagement />} />
           <Route path="/requirement/*" element={<Requirements />} />
           <Route path="/stock/*" element={<StockManagement />} />
+          <Route path="/movement/*" element={<StockMovement />} />
           <Route path="/vendor/*" element={<VendorManagement />} />
           <Route path="/purchase/*" element={<PurchaseManagement />} />
           <Route path="/expenditure/*" element={<ExpenditureManagement />} />
