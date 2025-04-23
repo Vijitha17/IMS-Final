@@ -1,9 +1,15 @@
-
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { 
   ShoppingCart, 
   FileText, 
@@ -21,14 +27,21 @@ import { useNavigate } from "react-router-dom";
 const PurchaseManagement = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [isCreatingRequest, setIsCreatingRequest] = useState(false);
   const navigate = useNavigate();
   
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
+  // Updated handler to toggle state instead of navigating
   const handleCreatePurchaseRequest = () => {
-    navigate('/purchase/create-request');
+    setIsCreatingRequest(true);
+  };
+  
+  // Handler to cancel request creation
+  const handleCancelRequest = () => {
+    setIsCreatingRequest(false);
   };
   
   return (
@@ -52,32 +65,158 @@ const PurchaseManagement = () => {
                 />
               </div>
               
-              {!isCreating && (
-                <>
-                  <Button onClick={() => setIsCreating(true)}>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Create Purchase
-                  </Button>
-                  
-                  <Button onClick={handleCreatePurchaseRequest} variant="outline">
-                    <FileEdit className="h-4 w-4 mr-2" />
-                    Create Request
-                  </Button>
-                </>
+              {/* Only show "Create Purchase" when not creating anything */}
+              {!isCreating && !isCreatingRequest && (
+                <Button onClick={() => setIsCreating(true)}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create Purchase
+                </Button>
               )}
-              
+              {/* Show Cancel button when creating a purchase */}
               {isCreating && (
                 <Button variant="outline" onClick={() => setIsCreating(false)}>
+                  Cancel
+                </Button>
+              )}
+              {/* Show Cancel button when creating a request */}
+              {isCreatingRequest && (
+                <Button variant="outline" onClick={handleCancelRequest}>
                   Cancel
                 </Button>
               )}
             </div>
           </div>
           
+          {/* Conditional rendering based on what we're creating */}
           {isCreating ? (
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-xl font-semibold mb-4">Create New Purchase</h2>
               <PurchaseForm onCancel={() => setIsCreating(false)} />
+            </div>
+          ) : isCreatingRequest ? (
+            <div className="bg-white rounded-lg shadow p-6">
+              <h2 className="text-xl font-semibold mb-4">Create Purchase Request</h2>
+              <form className="space-y-6">
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <label htmlFor="department" className="text-sm font-medium">
+                      Department
+                    </label>
+                    <Select>
+                      <SelectTrigger id="department">
+                        <SelectValue placeholder="Select department" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="cs">Computer Science</SelectItem>
+                        <SelectItem value="physics">Physics</SelectItem>
+                        <SelectItem value="chemistry">Chemistry</SelectItem>
+                        <SelectItem value="admin">Administration</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label htmlFor="category" className="text-sm font-medium">
+                      Category
+                    </label>
+                    <Select>
+                      <SelectTrigger id="category">
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="equipment">Equipment</SelectItem>
+                        <SelectItem value="supplies">Supplies</SelectItem>
+                        <SelectItem value="furniture">Furniture</SelectItem>
+                        <SelectItem value="services">Services</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label htmlFor="priority" className="text-sm font-medium">
+                      Priority
+                    </label>
+                    <Select>
+                      <SelectTrigger id="priority">
+                        <SelectValue placeholder="Select priority" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="high">High</SelectItem>
+                        <SelectItem value="medium">Medium</SelectItem>
+                        <SelectItem value="low">Low</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label htmlFor="requestedBy" className="text-sm font-medium">
+                      Requested By
+                    </label>
+                    <input
+                      id="requestedBy"
+                      type="text"
+                      className="w-full px-3 py-2 border rounded-md"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2 md:col-span-2">
+                    <label htmlFor="items" className="text-sm font-medium">
+                      Items Required
+                    </label>
+                    <textarea
+                      id="items"
+                      className="w-full px-3 py-2 border rounded-md"
+                      rows={3}
+                      placeholder="Enter items (one per line with quantity)"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2 md:col-span-2">
+                    <label htmlFor="justification" className="text-sm font-medium">
+                      Justification
+                    </label>
+                    <textarea
+                      id="justification"
+                      className="w-full px-3 py-2 border rounded-md"
+                      rows={3}
+                      placeholder="Explain why these items are needed"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label htmlFor="estimatedCost" className="text-sm font-medium">
+                      Estimated Cost
+                    </label>
+                    <input
+                      id="estimatedCost"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      className="w-full px-3 py-2 border rounded-md"
+                      placeholder="Enter estimated cost"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label htmlFor="requiredBy" className="text-sm font-medium">
+                      Required By (Date)
+                    </label>
+                    <input
+                      id="requiredBy"
+                      type="date"
+                      className="w-full px-3 py-2 border rounded-md"
+                    />
+                  </div>
+                </div>
+                
+                <div className="flex justify-end space-x-2">
+                  <Button variant="outline" onClick={handleCancelRequest}>
+                    Cancel
+                  </Button>
+                  <Button type="submit">Submit Request</Button>
+                </div>
+              </form>
             </div>
           ) : (
             <Tabs defaultValue="requests" className="space-y-4">

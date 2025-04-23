@@ -27,8 +27,8 @@ import RequestHistory from "./components/requests/RequestHistory";
 import ApprovalHistory from "./components/requests/ApprovalHistory";
 import StockView from "./pages/StockView";
 import VendorView from "./pages/VendorView";
-import AddCollegeForm from "./pages/AddCollegeForm";
-import AddDepartmentForm from "./pages/AddDepartmentForm";
+import AddCollegeForm from "./components/users/AddCollegeForm";
+import AddDepartmentForm from "./components/users/AddDepartmentForm";
 import RequestInventory from "./components/movement/RequestInventory";
 import RequestStatus from "./components/movement/RequestStatus";
 import IncomingRequests from "./components/movement/IncomingRequests";
@@ -50,13 +50,13 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/reports" element={<Reports />} />
           
-          {/* Keep existing routes for users, requirements, stock */}
-          <Route path="/users" element={<UserManagement />} />
-          <Route path="/users/create" element={<CreateUserForm />} />
-          <Route path="/users/college" element={<UserManagement />} />
-          <Route path="/users/add-college" element={<AddCollegeForm />} />
-          <Route path="/users/departments" element={<UserManagement />} />
-          <Route path="/users/add-department" element={<AddDepartmentForm />} />
+          <Route path="/users" element={<UserManagement />}>
+            <Route path="create" element={<CreateUserForm />} />
+            <Route path="add-college" element={<AddCollegeForm />} />
+            <Route path="add-department" element={<AddDepartmentForm />} />
+           <Route path=":tab" element={<UserManagement />} />
+          </Route>
+
           <Route path="/requirement/*" element={<Requirements />} />
           <Route path="/stock" element={<StockManagement />} />
           <Route path="/stock/add" element={<AddStockForm />} />

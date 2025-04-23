@@ -1,99 +1,127 @@
-
-import React from "react";
-import { 
-  Table, 
-  TableHeader, 
-  TableBody, 
-  TableRow, 
-  TableHead, 
-  TableCell 
-} from "@/components/ui/table";
-import { 
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator
-} from "@/components/ui/dropdown-menu";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { 
-  Plus,
-  MoreHorizontal, 
-  Edit, 
-  Trash,
-  Eye,
-  Building
-} from "lucide-react";
+import { Plus, Building } from "lucide-react";
 
-const CollegeList = () => {
-  // Sample data
-  const colleges = [
-    { id: 1, name: "Engineering College", address: "123 College Road, Campus Area", principal: "Dr. John Smith" },
-    { id: 2, name: "Arts College", address: "456 University Ave, Campus Area", principal: "Dr. Emily Wilson" },
-    { id: 3, name: "Science College", address: "789 Science Way, Campus Area", principal: "Dr. Robert Johnson" },
-    { id: 4, name: "Commerce College", address: "321 Business Blvd, Campus Area", principal: "Dr. James Anderson" }
-  ];
+const CollegeForm = ({ onCancel }) => {
+  const [formData, setFormData] = useState({ name: "", address: "", principal: "" });
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("College data submitted:", formData);
+    // Here you would typically save the data to a database
+    // Then call onSave or similar function to update the UI
+    onCancel(); // Close the form after saving
+  };
   
   return (
-    <div className="space-y-4">
-      <div className="flex justify-end">
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Add College
-        </Button>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <label htmlFor="name" className="text-sm font-medium">College Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          className="w-full px-3 py-2 border rounded-md"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
       </div>
       
-      <div className="bg-white rounded-lg shadow">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[250px]">College Name</TableHead>
-              <TableHead>Address</TableHead>
-              <TableHead>Principal</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {colleges.map((college) => (
-              <TableRow key={college.id}>
-                <TableCell className="font-medium">
-                  <div className="flex items-center">
-                    <Building className="h-4 w-4 mr-2 text-blue-600" />
-                    {college.name}
-                  </div>
-                </TableCell>
-                <TableCell>{college.address}</TableCell>
-                <TableCell>{college.principal}</TableCell>
-                <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreHorizontal className="h-4 w-4" />
-                        <span className="sr-only">Open menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
-                        <Eye className="mr-2 h-4 w-4" />
-                        <span>View Details</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Edit className="mr-2 h-4 w-4" />
-                        <span>Edit College</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-red-600">
-                        <Trash className="mr-2 h-4 w-4" />
-                        <span>Delete College</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <div className="space-y-2">
+        <label htmlFor="address" className="text-sm font-medium">Address</label>
+        <input
+          id="address"
+          name="address"
+          type="text"
+          className="w-full px-3 py-2 border rounded-md"
+          value={formData.address}
+          onChange={handleChange}
+          required
+        />
       </div>
+      
+      <div className="space-y-2">
+        <label htmlFor="principal" className="text-sm font-medium">Principal</label>
+        <input
+          id="principal"
+          name="principal"
+          type="text"
+          className="w-full px-3 py-2 border rounded-md"
+          value={formData.principal}
+          onChange={handleChange}
+        />
+      </div>
+      
+      <div className="flex justify-end space-x-2">
+        <Button variant="outline" type="button" onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button type="submit">Save College</Button>
+      </div>
+    </form>
+  );
+};
+
+const CollegeList = () => {
+  const navigate = useNavigate();
+  const [isCreatingCollege, setIsCreatingCollege] = useState(false);
+  
+  const colleges = [
+    { id: 1, name: "Engineering College", address: "123 College Road", principal: "Dr. John Smith" }
+  ];
+
+  return (
+    <div className="bg-white rounded-lg shadow p-6">
+      {!isCreatingCollege ? (
+        <>
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold">Colleges</h1>
+            <Button onClick={() => setIsCreatingCollege(true)}>
+              <Plus className="h-4 w-4 mr-2" />
+              Add College
+            </Button>
+          </div>
+          
+          <div className="bg-white rounded-lg shadow">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>College Name</TableHead>
+                  <TableHead>Address</TableHead>
+                  <TableHead>Principal</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {colleges.map((college) => (
+                  <TableRow key={college.id}>
+                    <TableCell className="flex items-center">
+                      <Building className="h-4 w-4 mr-2 text-blue-600" />
+                      {college.name}
+                    </TableCell>
+                    <TableCell>{college.address}</TableCell>
+                    <TableCell>{college.principal}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </>
+      ) : (
+        <div>
+          <div className="flex items-center mb-6">
+            <h2 className="text-xl font-semibold">Add New College</h2>
+          </div>
+          <CollegeForm onCancel={() => setIsCreatingCollege(false)} />
+        </div>
+      )}
     </div>
   );
 };

@@ -117,9 +117,7 @@ const RequestStatus = () => {
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Request Status</h1>
-          <Button onClick={() => navigate("/stock/movement/request-inventory")}>
-            Create New Request
-          </Button>
+          {/* Removed the "Create New Request" button */}
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { 
   Select, 
@@ -7,48 +7,54 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
-import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { Input } from "@/components/ui/input";
 
-const AddStockForm = () => {
-  const navigate = useNavigate();
+const AddStockForm = ({ onSuccess }) => {
   const { toast } = useToast();
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted");
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+    
+    console.log("Form submitted", data);
     
     toast({
       title: "Stock added successfully",
-      description: "The new stock item has been added.",
+      description: `${data.itemName} has been added to inventory.`,
     });
     
-    navigate("/stock");
+    onSuccess();
   };
   
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold">Add New Stock</h2>
-        <Button variant="outline" onClick={() => navigate("/stock")}>
-          Cancel
-        </Button>
-      </div>
-      
+    <div className="bg-white rounded-lg shadow p-6">
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Item Name</label>
-            <input
+            <label className="text-sm font-medium">ID</label>
+            <Input
+              name="id"
               type="text"
-              className="w-full px-3 py-2 border rounded-md"
+              placeholder="STK-001"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Item Name</label>
+            <Input
+              name="itemName"
+              type="text"
               placeholder="Enter item name"
+              required
             />
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Category</label>
-            <Select>
+            <Select name="category">
               <SelectTrigger>
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
@@ -57,23 +63,25 @@ const AddStockForm = () => {
                 <SelectItem value="furniture">Furniture</SelectItem>
                 <SelectItem value="stationery">Stationery</SelectItem>
                 <SelectItem value="equipment">Equipment</SelectItem>
+                <SelectItem value="tools">Tools</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Quantity</label>
-            <input
+            <Input
+              name="quantity"
               type="number"
               min="1"
-              className="w-full px-3 py-2 border rounded-md"
               placeholder="Enter quantity"
+              required
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Supplier/Vendor</label>
-            <Select>
+            <label className="text-sm font-medium">Supplier</label>
+            <Select name="supplier">
               <SelectTrigger>
                 <SelectValue placeholder="Select supplier" />
               </SelectTrigger>
@@ -81,19 +89,21 @@ const AddStockForm = () => {
                 <SelectItem value="techsupplies">TechSupplies Ltd.</SelectItem>
                 <SelectItem value="officesolutions">Office Solutions</SelectItem>
                 <SelectItem value="furnituremasters">Furniture Masters</SelectItem>
+                <SelectItem value="generalsupply">General Supply Co.</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Condition</label>
-            <Select>
+            <Select name="condition">
               <SelectTrigger>
                 <SelectValue placeholder="Select condition" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="good">Good</SelectItem>
-                <SelectItem value="average">Average</SelectItem>
+                <SelectItem value="new">New</SelectItem>
+                <SelectItem value="used-good">Used - Good</SelectItem>
+                <SelectItem value="used-fair">Used - Fair</SelectItem>
                 <SelectItem value="needs-repair">Needs Repair</SelectItem>
               </SelectContent>
             </Select>
@@ -101,52 +111,27 @@ const AddStockForm = () => {
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Purchase Date</label>
-            <input
+            <Input
+              name="purchaseDate"
               type="date"
-              className="w-full px-3 py-2 border rounded-md"
+              required
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Warranty End Date</label>
-            <input
+            <label className="text-sm font-medium">Warranty Until</label>
+            <Input
+              name="warrantyUntil"
               type="date"
-              className="w-full px-3 py-2 border rounded-md"
             />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Purchase Price</label>
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              className="w-full px-3 py-2 border rounded-md"
-              placeholder="Enter purchase price"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Location/Department</label>
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select location" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="cs">Computer Science</SelectItem>
-                <SelectItem value="it">Information Technology</SelectItem>
-                <SelectItem value="eee">Electrical Engineering</SelectItem>
-                <SelectItem value="admin">Administrative Office</SelectItem>
-                <SelectItem value="store">Main Store</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
         </div>
 
         <div className="space-y-2">
           <label className="text-sm font-medium">Description</label>
-          <textarea
-            className="w-full px-3 py-2 border rounded-md min-h-[100px]"
+          <Input
+            name="description"
+            type="text"
             placeholder="Enter item description"
           />
         </div>
@@ -154,13 +139,14 @@ const AddStockForm = () => {
         <div className="space-y-2">
           <label className="text-sm font-medium">Additional Notes</label>
           <textarea
+            name="notes"
             className="w-full px-3 py-2 border rounded-md min-h-[100px]"
             placeholder="Enter any additional notes"
           />
         </div>
 
-        <div className="flex justify-end space-x-2">
-          <Button type="submit">Save Stock</Button>
+        <div className="flex justify-end">
+          <Button type="submit">Add Stock</Button>
         </div>
       </form>
     </div>
