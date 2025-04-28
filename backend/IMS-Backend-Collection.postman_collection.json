@@ -1,0 +1,192 @@
+{
+    "info": {
+      "_postman_id": "IMS-BACKEND-POSTMAN",
+      "name": "IMS Backend APIs",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Register User",
+        "request": {
+          "method": "POST",
+          "header": [],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\",\n    \"role\": \"Admin\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5000/api/users/register",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5000",
+            "path": ["api", "users", "register"]
+          }
+        }
+      },
+      {
+        "name": "Login User",
+        "request": {
+          "method": "POST",
+          "header": [],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5000/api/users/login",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5000",
+            "path": ["api", "users", "login"]
+          }
+        }
+      },
+      {
+        "name": "Add Item",
+        "request": {
+          "method": "POST",
+          "header": [],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"Laptop\",\n    \"category\": \"Electronics\",\n    \"description\": \"Dell Inspiron 15\",\n    \"price\": 75000\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5000/api/items",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5000",
+            "path": ["api", "items"]
+          }
+        }
+      },
+      {
+        "name": "Get Items",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5000/api/items",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5000",
+            "path": ["api", "items"]
+          }
+        }
+      },
+      {
+        "name": "Add Vendor",
+        "request": {
+          "method": "POST",
+          "header": [],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"Tech World\",\n    \"type\": \"Product Vendor\",\n    \"contact\": \"techworld@gmail.com\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5000/api/vendors",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5000",
+            "path": ["api", "vendors"]
+          }
+        }
+      },
+      {
+        "name": "Get Vendors",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5000/api/vendors",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5000",
+            "path": ["api", "vendors"]
+          }
+        }
+      },
+      {
+        "name": "Add Stock",
+        "request": {
+          "method": "POST",
+          "header": [],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"itemId\": 1,\n    \"quantity\": 10\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5000/api/stocks",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5000",
+            "path": ["api", "stocks"]
+          }
+        }
+      },
+      {
+        "name": "Get Stocks",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5000/api/stocks",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5000",
+            "path": ["api", "stocks"]
+          }
+        }
+      },
+      {
+        "name": "Create Request",
+        "request": {
+          "method": "POST",
+          "header": [],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"userId\": 1,\n    \"itemId\": 1,\n    \"quantity\": 2\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5000/api/requests",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5000",
+            "path": ["api", "requests"]
+          }
+        }
+      },
+      {
+        "name": "Get Requests",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5000/api/requests",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5000",
+            "path": ["api", "requests"]
+          }
+        }
+      },
+      {
+        "name": "Update Request Status",
+        "request": {
+          "method": "PUT",
+          "header": [],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"status\": \"Approved\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5000/api/requests/1",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5000",
+            "path": ["api", "requests", "1"]
+          }
+        }
+      }
+    ]
+  }
+  
