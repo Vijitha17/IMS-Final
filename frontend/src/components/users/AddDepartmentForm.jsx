@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
-import { 
-  Card, 
-  CardContent, 
-  CardFooter, 
-  CardHeader, 
-  CardTitle 
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle
 } from "@/components/ui/card";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft } from "lucide-react";
@@ -25,14 +25,9 @@ const AddDepartmentForm = () => {
   const { toast } = useToast();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    code: "",
+    departmentId: "",
     college: "",
-    hod: "",
-    phone: "",
-    email: "",
-    establishedYear: "",
-    description: ""
+    name: ""
   });
   
   const colleges = [
@@ -41,6 +36,16 @@ const AddDepartmentForm = () => {
     { id: "3", name: "Arts College" },
     { id: "4", name: "Commerce College" }
   ];
+  
+  // Generate a department ID when component mounts
+  useEffect(() => {
+    const generateDepartmentId = () => {
+      const randomId = "DEPT-" + Math.floor(10000 + Math.random() * 90000);
+      setFormData(prev => ({ ...prev, departmentId: randomId }));
+    };
+    
+    generateDepartmentId();
+  }, []);
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -88,7 +93,52 @@ const AddDepartmentForm = () => {
               </CardHeader>
               
               <CardContent className="space-y-4">
-                {/* Rest of your form fields */}
+                {/* Department ID Field (Auto-generated) */}
+                <div className="space-y-2">
+                  <label htmlFor="departmentId" className="text-sm font-medium">Department ID (Auto-generated)</label>
+                  <input
+                    id="departmentId"
+                    type="text"
+                    name="departmentId"
+                    className="w-full px-3 py-2 border rounded-md bg-gray-100"
+                    value={formData.departmentId}
+                    readOnly
+                  />
+                </div>
+                
+                {/* College Selection Dropdown */}
+                <div className="space-y-2">
+                  <label htmlFor="college" className="text-sm font-medium">College</label>
+                  <Select 
+                    value={formData.college} 
+                    onValueChange={(value) => handleSelectChange("college", value)}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select a college" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {colleges.map((college) => (
+                        <SelectItem key={college.id} value={college.id}>
+                          {college.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Department Name Field */}
+                <div className="space-y-2">
+                  <label htmlFor="name" className="text-sm font-medium">Department Name</label>
+                  <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    className="w-full px-3 py-2 border rounded-md"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
               </CardContent>
               
               <CardFooter className="flex justify-end space-x-2">

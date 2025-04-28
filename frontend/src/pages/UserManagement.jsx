@@ -1,4 +1,4 @@
-
+// UserManagement.jsx (updated)
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
@@ -11,12 +11,14 @@ import {
   User, 
   UserPlus, 
   Building, 
-  BookOpen 
+  BookOpen,
+  MapPin 
 } from "lucide-react";
 import UserList from "@/components/users/UserList";
 import UserForm from "@/components/users/UserForm";
 import CollegeList from "@/components/users/CollegeList";
 import DepartmentList from "@/components/users/DepartmentList";
+import LocationList from "@/components/users/LocationList";
 
 const UserManagement = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -82,6 +84,10 @@ const UserManagement = () => {
                   <BookOpen className="h-4 w-4 mr-2" />
                   Departments
                 </TabsTrigger>
+                <TabsTrigger value="locations" className="flex items-center">
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Locations
+                </TabsTrigger>
               </TabsList>
               
               <TabsContent value="users" className="space-y-4">
@@ -94,6 +100,10 @@ const UserManagement = () => {
               
               <TabsContent value="departments" className="space-y-4">
                 <DepartmentList />
+              </TabsContent>
+              
+              <TabsContent value="locations" className="space-y-4">
+                <LocationList />
               </TabsContent>
             </Tabs>
           )}

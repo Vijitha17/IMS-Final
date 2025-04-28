@@ -9,13 +9,16 @@ import {
   Filter, 
   Package, 
   Share2, 
-  Wrench
+  Wrench,
+  Trash2,
+  DollarSign
 } from "lucide-react";
 import StockList from "@/components/stock/StockList";
 import AllocatedStockList from "@/components/stock/AllocatedStockList";
 import ServiceStockList from "@/components/stock/ServiceStockList";
 import AddStockForm from "@/components/stock/AddStockForm";
-import ServiceStockForm from "@/components/stock/ServiceStockForm";
+import TrashedStockList from "@/components/stock/TrashedStockList";
+import SoldStockList from "@/components/stock/SoldStockList";
 
 const StockManagement = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -27,7 +30,6 @@ const StockManagement = () => {
   };
 
   const handleAddStock = () => setActiveForm('add');
-  const handleSendToService = () => setActiveForm('service');
   const handleCancel = () => setActiveForm(null);
 
   return (
@@ -40,9 +42,7 @@ const StockManagement = () => {
         <main className={`flex-1 p-6 md:p-8 transition-all duration-300 ${sidebarOpen ? "md:ml-64" : "md:ml-20"}`}>
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
             <h1 className="text-2xl font-bold mb-4 md:mb-0">
-              {activeForm === 'add' ? 'Add New Stock' : 
-               activeForm === 'service' ? 'Send to Service' : 
-               'Stock Management'}
+              {activeForm === 'add' ? 'Add New Stock' : 'Stock Management'}
             </h1>
             
             <div className="flex flex-col md:flex-row w-full md:w-auto space-y-2 md:space-y-0 md:space-x-2">
@@ -64,24 +64,18 @@ const StockManagement = () => {
                   >
                     <Filter className="h-4 w-4" />
                   </Button>
-                </>
-              )}
-              
-              {activeForm ? (
-                <Button variant="outline" onClick={handleCancel}>
-                  Cancel
-                </Button>
-              ) : (
-                <>
+                  
                   <Button onClick={handleAddStock}>
                     <Plus className="h-4 w-4 mr-2" />
                     Add Stock
                   </Button>
-                  <Button onClick={handleSendToService} variant="outline">
-                    <Wrench className="h-4 w-4 mr-2" />
-                    Send to Service
-                  </Button>
                 </>
+              )}
+              
+              {activeForm && (
+                <Button variant="outline" onClick={handleCancel}>
+                  Cancel
+                </Button>
               )}
             </div>
           </div>
@@ -89,10 +83,6 @@ const StockManagement = () => {
           {activeForm === 'add' ? (
             <div className="bg-white rounded-lg shadow p-6">
               <AddStockForm onSuccess={handleCancel} />
-            </div>
-          ) : activeForm === 'service' ? (
-            <div className="bg-white rounded-lg shadow p-6">
-              <ServiceStockForm onSuccess={handleCancel} />
             </div>
           ) : (
             <>
@@ -153,6 +143,14 @@ const StockManagement = () => {
                     <Wrench className="h-4 w-4 mr-2" />
                     Stock in Service
                   </TabsTrigger>
+                  <TabsTrigger value="trashed" className="flex items-center">
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Trashed Stock
+                  </TabsTrigger>
+                  <TabsTrigger value="sold" className="flex items-center">
+                    <DollarSign className="h-4 w-4 mr-2" />
+                    Sold Stock
+                  </TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="current" className="space-y-4">
@@ -165,6 +163,14 @@ const StockManagement = () => {
                 
                 <TabsContent value="inService" className="space-y-4">
                   <ServiceStockList type="in-service" />
+                </TabsContent>
+                
+                <TabsContent value="trashed" className="space-y-4">
+                  <TrashedStockList />
+                </TabsContent>
+                
+                <TabsContent value="sold" className="space-y-4">
+                  <SoldStockList />
                 </TabsContent>
               </Tabs>
             </>

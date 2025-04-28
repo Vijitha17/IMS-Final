@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -11,12 +10,6 @@ const Index = () => {
         <div className="flex items-center">
           <span className="text-2xl font-bold text-college-800">CollegeIMS</span>
         </div>
-        
-        <Link to="/login">
-          <Button variant="outline" className="text-college-700 border-college-300 hover:bg-college-100 hover:text-college-800">
-            Login
-          </Button>
-        </Link>
       </header>
       
       <main className="flex-1 container mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-center gap-12">
@@ -59,7 +52,7 @@ const Index = () => {
       
       <footer className="bg-college-800 text-white py-8">
         <div className="container mx-auto px-4 text-center">
-          <p>© 2025 College Inventory Management System. All rights reserved.</p>
+          <p>© 2025 College Inventory Management System.</p>
         </div>
       </footer>
     </div>

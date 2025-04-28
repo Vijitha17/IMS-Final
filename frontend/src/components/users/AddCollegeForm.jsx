@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
@@ -8,8 +8,22 @@ import { ArrowLeft } from "lucide-react";
 
 const AddCollegeForm = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ name: "", address: "" });
+  const [formData, setFormData] = useState({ 
+    id: "",
+    name: "" 
+  });
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  // Generate a random college ID when component mounts
+  useEffect(() => {
+    const generateCollegeId = () => {
+      // Generate a random alphanumeric ID (e.g., "COL-12345")
+      const randomId = "COL-" + Math.floor(10000 + Math.random() * 90000);
+      setFormData(prev => ({ ...prev, id: randomId }));
+    };
+    
+    generateCollegeId();
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,7 +43,7 @@ const AddCollegeForm = () => {
             <Button variant="ghost" onClick={() => navigate("/users/colleges")}>
               <ArrowLeft className="h-4 w-4 mr-2" /> Back to Colleges
             </Button>
-            <h1 className="text-2xl font-bold">Add New College</h1>
+            <h1 className="text-2xl font-bold ml-2">Add New College</h1>
           </div>
           
           <Card>
@@ -40,7 +54,17 @@ const AddCollegeForm = () => {
               
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <label>College Name</label>
+                  <label className="text-sm font-medium">College ID (Auto-generated)</label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 border rounded-md bg-gray-100"
+                    value={formData.id}
+                    readOnly
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">College Name</label>
                   <input
                     type="text"
                     className="w-full px-3 py-2 border rounded-md"

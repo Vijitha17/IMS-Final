@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { 
   Select,
@@ -8,92 +7,182 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useNavigate } from "react-router-dom";
+import { toast } from "@/components/ui/use-toast";
 
-const VendorForm = ({ onCancel }) => {
+const VendorForm = ({ vendor, onCancel, onSave }) => {
+  const [formData, setFormData] = useState(vendor || {
+    vendor_name: "",
+    vendor_type: "",
+    phone: "",
+    email: "",
+    description: "",
+    contact_name: "",
+    contact_phone: "",
+    contact_email: "",
+    address: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
   return (
-    <form className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-2">
-          <label htmlFor="name" className="text-sm font-medium">
-            Vendor Name
+          <label htmlFor="vendor_name" className="text-sm font-medium">
+            Vendor Name *
           </label>
           <input
-            id="name"
+            id="vendor_name"
+            name="vendor_name"
             type="text"
             className="w-full px-3 py-2 border rounded-md"
-            placeholder="Enter vendor name"
+            value={formData.vendor_name}
+            onChange={handleChange}
+            required
           />
         </div>
         
         <div className="space-y-2">
-          <label htmlFor="type" className="text-sm font-medium">
-            Vendor Type
+          <label htmlFor="vendor_type" className="text-sm font-medium">
+            Vendor Type *
           </label>
-          <Select>
-            <SelectTrigger id="type">
+          <Select 
+            name="vendor_type" 
+            value={formData.vendor_type}
+            onValueChange={(value) => setFormData(prev => ({ ...prev, vendor_type: value }))}
+            required
+          >
+            <SelectTrigger id="vendor_type">
               <SelectValue placeholder="Select type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="service">Service Vendor</SelectItem>
-              <SelectItem value="product">Product Vendor</SelectItem>
+              <SelectItem value="Service">Service Vendor</SelectItem>
+              <SelectItem value="Product">Product Vendor</SelectItem>
             </SelectContent>
           </Select>
         </div>
         
         <div className="space-y-2">
-          <label htmlFor="contact" className="text-sm font-medium">
-            Contact Person
+          <label htmlFor="phone" className="text-sm font-medium">
+            Vendor Phone *
           </label>
           <input
-            id="contact"
-            type="text"
+            id="phone"
+            name="phone"
+            type="tel"
             className="w-full px-3 py-2 border rounded-md"
-            placeholder="Enter contact person name"
+            value={formData.phone}
+            onChange={handleChange}
+            required
           />
         </div>
         
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium">
-            Email
+            Vendor Email *
           </label>
           <input
             id="email"
+            name="email"
             type="email"
             className="w-full px-3 py-2 border rounded-md"
-            placeholder="Enter email address"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        
+        <div className="space-y-2 md:col-span-2">
+          <label htmlFor="description" className="text-sm font-medium">
+            Description
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            className="w-full px-3 py-2 border rounded-md"
+            rows={3}
+            value={formData.description}
+            onChange={handleChange}
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <label htmlFor="contact_name" className="text-sm font-medium">
+            Contact Person *
+          </label>
+          <input
+            id="contact_name"
+            name="contact_name"
+            type="text"
+            className="w-full px-3 py-2 border rounded-md"
+            value={formData.contact_name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <label htmlFor="contact_phone" className="text-sm font-medium">
+            Contact Phone *
+          </label>
+          <input
+            id="contact_phone"
+            name="contact_phone"
+            type="tel"
+            className="w-full px-3 py-2 border rounded-md"
+            value={formData.contact_phone}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <label htmlFor="contact_email" className="text-sm font-medium">
+            Contact Email *
+          </label>
+          <input
+            id="contact_email"
+            name="contact_email"
+            type="email"
+            className="w-full px-3 py-2 border rounded-md"
+            value={formData.contact_email}
+            onChange={handleChange}
+            required
           />
         </div>
         
         <div className="space-y-2 md:col-span-2">
           <label htmlFor="address" className="text-sm font-medium">
-            Address
+            Address *
           </label>
           <textarea
             id="address"
+            name="address"
             className="w-full px-3 py-2 border rounded-md"
             rows={3}
-            placeholder="Enter vendor address"
-          />
-        </div>
-        
-        <div className="space-y-2 md:col-span-2">
-          <label htmlFor="products" className="text-sm font-medium">
-            Products/Services
-          </label>
-          <textarea
-            id="products"
-            className="w-full px-3 py-2 border rounded-md"
-            rows={3}
-            placeholder="Enter products or services (one per line)"
+            value={formData.address}
+            onChange={handleChange}
+            required
           />
         </div>
       </div>
       
       <div className="flex justify-end space-x-2">
-        <Button variant="outline" onClick={onCancel}>
+        <Button variant="outline" type="button" onClick={onCancel}>
           Cancel
         </Button>
-        <Button type="submit">Save Vendor</Button>
+        <Button type="submit">
+          {vendor ? "Update Vendor" : "Save Vendor"}
+        </Button>
       </div>
     </form>
   );

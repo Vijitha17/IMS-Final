@@ -1,4 +1,3 @@
-
 import React from "react";
 import { 
   Table, 
@@ -22,11 +21,22 @@ import {
   Eye,
   RefreshCw,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  Clock
 } from "lucide-react";
 
 const ServiceStockList = ({ type }) => {
-  // Sample data - in a real app, this would come from an API
+  const formatDateTime = (dateString) => {
+    if (!dateString) return '-';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   const toServiceItems = [
     { 
       id: "SVC001", 
@@ -37,7 +47,9 @@ const ServiceStockList = ({ type }) => {
       issueDescription: "Boot failure, possible hardware issue",
       serviceType: "in-house",
       requestDate: "2025-04-10",
-      status: "pending"
+      status: "pending",
+      createdAt: "2025-04-10 09:15:00",
+      updatedAt: "2025-04-10 09:15:00"
     },
     { 
       id: "SVC002", 
@@ -48,7 +60,9 @@ const ServiceStockList = ({ type }) => {
       issueDescription: "Paper jam mechanism faulty",
       serviceType: "vendor",
       requestDate: "2025-04-12",
-      status: "approved"
+      status: "approved",
+      createdAt: "2025-04-12 11:30:00",
+      updatedAt: "2025-04-12 14:45:00"
     },
     { 
       id: "SVC003", 
@@ -59,7 +73,9 @@ const ServiceStockList = ({ type }) => {
       issueDescription: "Calibration required",
       serviceType: "vendor",
       requestDate: "2025-04-15",
-      status: "pending"
+      status: "pending",
+      createdAt: "2025-04-15 10:20:00",
+      updatedAt: "2025-04-15 10:20:00"
     }
   ];
   
@@ -73,7 +89,9 @@ const ServiceStockList = ({ type }) => {
       serviceProvider: "IT Department",
       serviceStartDate: "2025-04-12",
       expectedCompletionDate: "2025-04-20",
-      status: "in-progress"
+      status: "in-progress",
+      createdAt: "2025-04-12 09:00:00",
+      updatedAt: "2025-04-15 16:30:00"
     },
     { 
       id: "SVC004", 
@@ -84,7 +102,9 @@ const ServiceStockList = ({ type }) => {
       serviceProvider: "Cooling Solutions Inc.",
       serviceStartDate: "2025-04-10",
       expectedCompletionDate: "2025-04-18",
-      status: "completed"
+      status: "completed",
+      createdAt: "2025-04-10 14:15:00",
+      updatedAt: "2025-04-18 11:00:00"
     },
     { 
       id: "SVC005", 
@@ -95,7 +115,9 @@ const ServiceStockList = ({ type }) => {
       serviceProvider: "TechRepair Services",
       serviceStartDate: "2025-04-08",
       expectedCompletionDate: "2025-04-25",
-      status: "in-progress"
+      status: "in-progress",
+      createdAt: "2025-04-08 10:45:00",
+      updatedAt: "2025-04-15 09:30:00"
     }
   ];
   
@@ -160,11 +182,17 @@ const ServiceStockList = ({ type }) => {
             ) : (
               <>
                 <TableHead>Service Provider</TableHead>
-                <TableHead>Service Start Date</TableHead>
+                <TableHead>Service Start</TableHead>
                 <TableHead>Expected Completion</TableHead>
               </>
             )}
             
+            <TableHead className="whitespace-nowrap">
+              <div className="flex items-center">
+                <Clock className="h-4 w-4 mr-1" />
+                Last Updated
+              </div>
+            </TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
@@ -182,16 +210,19 @@ const ServiceStockList = ({ type }) => {
                 <>
                   <TableCell>{item.issueDescription}</TableCell>
                   <TableCell className="capitalize">{item.serviceType}</TableCell>
-                  <TableCell>{item.requestDate}</TableCell>
+                  <TableCell>{formatDateTime(item.requestDate)}</TableCell>
                 </>
               ) : (
                 <>
                   <TableCell>{item.serviceProvider}</TableCell>
-                  <TableCell>{item.serviceStartDate}</TableCell>
-                  <TableCell>{item.expectedCompletionDate}</TableCell>
+                  <TableCell>{formatDateTime(item.serviceStartDate)}</TableCell>
+                  <TableCell>{formatDateTime(item.expectedCompletionDate)}</TableCell>
                 </>
               )}
               
+              <TableCell className="text-sm text-muted-foreground">
+                {formatDateTime(item.updatedAt)}
+              </TableCell>
               <TableCell>{getStatusBadge(item.status)}</TableCell>
               <TableCell className="text-right">
                 <DropdownMenu>

@@ -16,7 +16,11 @@ const AddStockForm = ({ onSuccess }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+    const data = {
+      ...Object.fromEntries(formData.entries()),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
     
     console.log("Form submitted", data);
     
